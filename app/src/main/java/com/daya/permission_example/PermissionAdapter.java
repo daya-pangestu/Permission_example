@@ -23,7 +23,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class PermissionAdapter extends RecyclerView.Adapter<PermissionAdapter.PermissionHolder> {
-    List<Permissionmodel> listPermission = new ArrayList<>();
+    List<Permissionmodel> listPermissionAndImage = new ArrayList<>();
 
 
     @NonNull
@@ -36,18 +36,18 @@ public class PermissionAdapter extends RecyclerView.Adapter<PermissionAdapter.Pe
     @Override
     public void onBindViewHolder(@NonNull PermissionHolder holder, int position) {
 
-        Permissionmodel current = listPermission.get(position);
+        Permissionmodel current = listPermissionAndImage.get(position);
         holder.bind(current);
 
     }
 
     @Override
     public int getItemCount() {
-        return (listPermission != null) ? listPermission.size() : 0;
+        return (listPermissionAndImage != null) ? listPermissionAndImage.size() : 0;
     }
 
     public void setListPermission(List<Permissionmodel> listPermission) {
-        this.listPermission = listPermission;
+        this.listPermissionAndImage = listPermission;
     }
 
 
@@ -80,11 +80,11 @@ public class PermissionAdapter extends RecyclerView.Adapter<PermissionAdapter.Pe
             if (textPermission != null) {
                 switch (textPermission) {
                     case Manifest.permission.CAMERA:
-                        setPermission(v.getContext(), textPermission,MainActivity.permisionCamera);
+                        setPermission(v.getContext(), textPermission,MainActivity.permisionCamera());
 
                         break;
                     case Manifest.permission.RECORD_AUDIO:
-                        setPermission(v.getContext(), textPermission,MainActivity.permisionRecord);
+                        setPermission(v.getContext(), textPermission,MainActivity.permisionRecord());
                         break;
                     case Manifest.permission.READ_EXTERNAL_STORAGE:
                         setPermission(v.getContext(), textPermission, MainActivity.permisionExplorer(v.getContext()));

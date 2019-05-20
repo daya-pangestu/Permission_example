@@ -31,8 +31,8 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.recycler_permission)
     RecyclerView recyclerPermission;
 
-
-    public static List<String> listPermission = Arrays.asList(Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO,Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE);
+    //list of permission we used
+    public static List<String> listPermission = Arrays.asList(Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO,Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
 
 
@@ -44,15 +44,16 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
 
-        List<Permissionmodel> listPermisi = new ArrayList<>();
+        List<Permissionmodel> listPermissionAndImage = new ArrayList<>();//put permission onto arraylist with Permissionmodel.class, which is contain permission string and drawable path for image
 
-        listPermisi.add(new Permissionmodel(listPermission.get(0), R.drawable.ic_camera_alt_black_24dp));
-        listPermisi.add(new Permissionmodel(listPermission.get(1), R.drawable.ic_mic_black_24dp));
-        listPermisi.add(new Permissionmodel(listPermission.get(2), R.drawable.ic_create_new_folder_black_24dp));
+        listPermissionAndImage.add(new Permissionmodel(listPermission.get(0), R.drawable.ic_camera_alt_black_24dp));
+        listPermissionAndImage.add(new Permissionmodel(listPermission.get(1), R.drawable.ic_mic_black_24dp));
+        listPermissionAndImage.add(new Permissionmodel(listPermission.get(2), R.drawable.ic_create_new_folder_black_24dp));
 
 
+        //recyclerview
         PermissionAdapter adapter = new PermissionAdapter();
-        adapter.setListPermission(listPermisi);
+        adapter.setListPermission(listPermissionAndImage);
         RecyclerView.LayoutManager manager = new GridLayoutManager(this, 2);
         recyclerPermission.setHasFixedSize(true);
         recyclerPermission.setLayoutManager(manager);
@@ -60,36 +61,40 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    //static method that used in permissionAdapter.java, each one of these represent the corresponding permission
+    public static PermissionListener permisionCamera() {
+        return new PermissionListener() {
+            @Override
+            public void onPermissionGranted() {
+                Camera c = null;
+                try {
+                    c = Camera.open(); // attempt to get a Camera instance
+                } catch (Exception e) {
+                    // Camera is not available (in use or does not exist)
+                }
 
-    public static PermissionListener permisionCamera = new PermissionListener() {
-        @Override
-        public void onPermissionGranted() {
-            Camera c = null;
-            try {
-                c = Camera.open(); // attempt to get a Camera instance
-            } catch (Exception e) {
-                // Camera is not available (in use or does not exist)
             }
 
-        }
+            @Override
+            public void onPermissionDenied(List<String> deniedPermissions) {
 
-        @Override
-        public void onPermissionDenied(List<String> deniedPermissions) {
+            }
+        };
+    }
 
-        }
-    };
+    public static PermissionListener permisionRecord () {
+        return new PermissionListener() {
+            @Override
+            public void onPermissionGranted() {
 
-    public static PermissionListener permisionRecord = new PermissionListener() {
-        @Override
-        public void onPermissionGranted() {
+            }
 
-        }
+            @Override
+            public void onPermissionDenied(List<String> deniedPermissions) {
 
-        @Override
-        public void onPermissionDenied(List<String> deniedPermissions) {
-
-        }
-    };
+            }
+        };
+    }
 
     public static PermissionListener permisionExplorer(Context context) {
         return new PermissionListener() {
