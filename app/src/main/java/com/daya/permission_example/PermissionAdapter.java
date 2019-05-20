@@ -37,7 +37,7 @@ public class PermissionAdapter extends RecyclerView.Adapter<PermissionAdapter.Pe
     public void onBindViewHolder(@NonNull PermissionHolder holder, int position) {
 
         Permissionmodel current = listPermissionAndImage.get(position);
-        holder.bind(current);
+        holder.bind(current);//pass the current list onto viewholder
 
     }
 
@@ -81,11 +81,12 @@ public class PermissionAdapter extends RecyclerView.Adapter<PermissionAdapter.Pe
                 switch (textPermission) {
                     case Manifest.permission.CAMERA:
                         setPermission(v.getContext(), textPermission,MainActivity.permisionCamera());
-
                         break;
+
                     case Manifest.permission.RECORD_AUDIO:
                         setPermission(v.getContext(), textPermission,MainActivity.permisionRecord());
                         break;
+
                     case Manifest.permission.READ_EXTERNAL_STORAGE:
                         setPermission(v.getContext(), textPermission, MainActivity.permisionExplorer(v.getContext()));
                         break;
@@ -94,6 +95,7 @@ public class PermissionAdapter extends RecyclerView.Adapter<PermissionAdapter.Pe
         }
     }
 
+    //void for setpermission based on TedPermission Library
     void setPermission(Context context,String permission,PermissionListener permissionListener) {
         TedPermission.with(context)
                 .setPermissionListener(permissionListener)

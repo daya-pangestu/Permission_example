@@ -4,7 +4,9 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.hardware.Camera;
+import android.media.MediaRecorder;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -13,6 +15,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.github.piasy.rxandroidaudio.AudioRecorder;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.obsez.android.lib.filechooser.ChooserDialog;
@@ -87,6 +90,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPermissionGranted() {
 
+                AudioRecorder mAudioRecorder = AudioRecorder.getInstance();
+                File mAudioFile = new File(
+                        Environment.getExternalStorageDirectory().getAbsolutePath() +
+                                File.separator + System.nanoTime() + ".file.m4a");
+                mAudioRecorder.prepareRecord(MediaRecorder.AudioSource.MIC,
+                        MediaRecorder.OutputFormat.MPEG_4, MediaRecorder.AudioEncoder.AAC,
+                        mAudioFile);
+                mAudioRecorder.startRecord();
+// ...
+                mAudioRecorder.stopRecord();
             }
 
             @Override
